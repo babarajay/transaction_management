@@ -1,0 +1,71 @@
+<%= form_for([@transaction], html: { class: "form-horizontal" }) do |f| %>
+  <%=f.hidden_field :account_id, value: current_user.try(:account).try(:id)%>
+ <div class="container-fluid">
+    <div class="row main">
+      <div class="col-lg-12">
+        <h2 class="page-header">Transaction Form</h2>
+      </div>
+      <div class="form-group <%= has_error(@transaction.errors, :amount) %>">
+        <label class="col-sm-2 control-label">
+          <%= f.label :amount %>
+        </label>
+        <div class="col-sm-3">
+          <%= f.text_field :amount, class: "form-control"%> 
+          <%= print_error(@transaction.errors, :amount) %>
+        </div>
+      </div>
+      <div class="form-group <%= has_error(@transaction.errors, :transaction_type) %>">
+        <label class="col-sm-2 control-label">
+          <%= f.label :transaction_type %>
+        </label>
+        <div class="col-sm-3">
+          <%= f.select :transaction_type, TRANSACTION_TYPE, {prompt: "---Select Transaction Type---"}, required: :required, class: "form-control", id: "transaction_type"%> 
+          <%= print_error(@transaction.errors, :transaction_type) %>
+        </div>
+      </div>
+      <div class="form-group <%= has_error(@transaction.errors, :account_number) %>" id= "account_number">
+        <label class="col-sm-2 control-label">
+          <%= f.label :account_number %>
+        </label>
+        <div class="col-sm-3">
+          <%= f.text_field :account_number, class: "form-control", id: "account_id"%> 
+          <%= print_error(@transaction.errors, :account_number) %>
+        </div>
+      </div>
+      <div class="form-group <%= has_error(@transaction.errors, :description) %>">
+        <label class="col-sm-2 control-label">
+          <%= f.label :description %>
+        </label>
+        <div class="col-sm-3">
+          <%= f.text_area :description, class: "form-control"%> 
+          <%= print_error(@transaction.errors, :description) %>
+        </div>
+      </div> 
+      <div class="col-lg-12">
+        <div class="form-group">
+          <%= f.submit class: "btn btn-primary col-xs-offset-2" %>
+          <%= link_to "Cancel", transactions_path, class: "btn btn-danger" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<%end%>
+<%if @transaction.errors[:account_number].present? %>
+  <script type="text/javascript">
+    $('#account_number').show()
+  </script>
+<%else%>
+  <script type="text/javascript">
+    $('#account_number').hide()
+  </script>
+<%end%>
+<script type="text/javascript">
+  $("#transaction_type").change(function(){
+    if($(this).val() == "NEFT"){
+      console.log("test")
+      $('#account_number').show()
+    }else{
+      $('#account_number').hide()
+    }
+  });
+</script>

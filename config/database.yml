@@ -1,0 +1,18 @@
+default: &default
+  adapter:  <%= ENV['database_adapter'] %>
+  pool:     <%= ENV['database_pool'] %>
+  database: <%= ENV['database_name'] %>
+  encoding: <%= ENV['database_encoding'] %>
+  username: <%= ENV['database_username'] %>
+  password: <%= ENV['database_password'] %>
+  host:     <%= ENV['database_host'] %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  database: bank_management_test
+
+production:
+  <<: *default
