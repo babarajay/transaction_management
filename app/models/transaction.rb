@@ -5,6 +5,15 @@ class Transaction < ApplicationRecord
   belongs_to :account
 
   #
+  ## Constant
+  #
+  TRANSACTION_TYPES = [
+    "Withdraw",
+    "NEFT",
+    "Deposite"
+  ].freeze
+
+  #
   ## Validations
   #
   validates(
@@ -22,17 +31,8 @@ class Transaction < ApplicationRecord
   validates(
     :transaction_type,
     presence: true,
-    inclusion: %w( NEFT Withdraw Deposite )
+    inclusion: { in: Transaction::TRANSACTION_TYPES }
   )
-
-  #
-  ## Constant
-  #
-  TRANSACTION_TYPES = [
-    "Withdraw",
-    "NEFT",
-    "Deposite"
-  ]
 
   #
   ## Callbacks
