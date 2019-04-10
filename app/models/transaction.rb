@@ -26,6 +26,15 @@ class Transaction < ApplicationRecord
   )
 
   #
+  ## Constant
+  #
+  TRANSACTION_TYPES = [
+    "Withdraw",
+    "NEFT",
+    "Deposite"
+  ]
+
+  #
   ## Callbacks
   #
   before_validation :check_account_number, :check_balance
@@ -60,13 +69,14 @@ class Transaction < ApplicationRecord
   def update_balance_in_account
     if transaction_type == "NEFT"
       neft_account = Account.find_by(account_number: account_number)
-      account.update(balance: account.balance - amount)
+      account.balance = account.balance - amount
 
       #
       ## Deposite money account
       #
-      Transaction.transaction do  
+      Transaction.transaction do
         neft_account.update(balance: neft_account.balance + amount)
+        raise ActiveRecord::Rollback
       end
     elsif transaction_type == "Withdraw"
       account.balance = account.balance - amount
@@ -79,6 +89,7 @@ class Transaction < ApplicationRecord
     #
     Transaction.transaction do
       account.save
+      raise ActiveRecord::Rollback
     end
   end
 end

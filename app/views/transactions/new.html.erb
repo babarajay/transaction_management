@@ -19,7 +19,7 @@
           <%= f.label :transaction_type %>
         </label>
         <div class="col-sm-3">
-          <%= f.select :transaction_type, TRANSACTION_TYPE, {prompt: "---Select Transaction Type---"}, required: :required, class: "form-control", id: "transaction_type"%> 
+          <%= f.select :transaction_type, Transaction::TRANSACTION_TYPES, {prompt: "---Select Transaction Type---"}, required: :required, class: "form-control", id: "transaction_type"%> 
           <%= print_error(@transaction.errors, :transaction_type) %>
         </div>
       </div>
