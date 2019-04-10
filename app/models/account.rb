@@ -18,4 +18,9 @@ class Account < ApplicationRecord
       maximum: 14
     }
   )
+
+  validates(
+    :balance,
+    numericality: { greater_than_or_equal_to: 0 }
+  )
 end

@@ -16,45 +16,69 @@ class Transaction < ApplicationRecord
   )
   validates(
     :amount,
-    presence: true
+    presence: true,
+    numericality: { greater_than_or_equal_to: 0 }
   )
   validates(
     :transaction_type,
-    presence: true
+    presence: true,
+    inclusion: %w( NEFT Withdraw Deposite )
   )
 
   #
   ## Callbacks
   #
   before_validation :check_account_number, :check_balance
-  after_create :remove_amount_from_balance
+  after_create :update_balance_in_account
 
+  #
+  ## Check account number before transaction
+  #
   def check_account_number
-    if self.transaction_type == "NEFT"
-      @account = Account.find_by(account_number: self.account_number)
-      if !@account.present?
-        errors.add(:account_number,"Account is not Exists")
+    if transaction_type == "NEFT"
+      account = Account.find_by(account_number: account_number)
+      errors.add(:account_number,"Account is not Exists") if account.blank?
+    end
+  end
+
+  #
+  ## Check the balance in account before transaciton
+  #
+  def check_balance
+    if transaction_type != "Deposite"
+      if account.balance <= 0.0 && 
+        errors.add(:amount,"You don't have sufficient balance in your account.")
+      elsif account.balance < amount
+        errors.add(:amount,"Please enter valid amount according to your current balance.")
       end
     end
   end
 
-  def check_balance
-    if self.account.balance <= 0.0
-      errors.add(:amount,"You don't have sufficient balance in your account.")
-    elsif self.account.balance < self.amount
-      errors.add(:amount,"Please enter valid amount according to your current balance.")
-    end
-  end
+  #
+  ## Update account balance
+  #
+  def update_balance_in_account
+    if transaction_type == "NEFT"
+      neft_account = Account.find_by(account_number: account_number)
+      account.update(balance: account.balance - amount)
 
-  def remove_amount_from_balance
-    if self.transaction_type == "NEFT"
-      @account = Account.find_by(account_number: self.account_number)
-      self.account.update(balance: self.account.balance - self.amount)
-      @account.balance = @account.balance + self.amount
-    elsif self.transaction_type == "Withdraw"
-      @account = self.account
-      @account.balance = @account.balance - self.amount
+      #
+      ## Deposite money account
+      #
+      Transaction.transaction do  
+        neft_account.update(balance: neft_account.balance + amount)
+      end
+    elsif transaction_type == "Withdraw"
+      account.balance = account.balance - amount
+    elsif transaction_type == "Deposite"
+      account.balance = account.balance + amount
     end
-    @account.save
+
+    #
+    ## To ensure the successfull transaction
+    #
+    Transaction.transaction do
+      account.save
+    end
   end
 end

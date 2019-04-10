@@ -10,5 +10,6 @@ ACCOUNT_TYPE=[
 #
 TRANSACTION_TYPE=[
   "Withdraw",
-  "NEFT"
+  "NEFT",
+  "Deposite"
 ]

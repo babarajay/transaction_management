@@ -50,7 +50,7 @@ class User < ApplicationRecord
 
   def create_account_number
     account  = Account.new
-    account.user_id = self.id
+    account.user_id = id
     account.account_number = rand(10 ** 10).to_s.rjust(14,'0')
     account.account_type = "Saving"
     account.save
