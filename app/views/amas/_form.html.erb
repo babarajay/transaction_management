@@ -1,0 +1,32 @@
+<%= form_with(model: ama, local: true) do |form| %>
+  <% if ama.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ama.errors.count, "error") %> prohibited this ama from being saved:</h2>
+
+      <ul>
+      <% ama.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :start_date %>
+    <%= form.datetime_select :start_date %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :speaker_id %>
+    <%= form.select :speaker_id, options_for_select(user_listing) %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: 'btn btn-primary' %>
+  </div>
+<% end %>

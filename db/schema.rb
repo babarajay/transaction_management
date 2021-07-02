@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170924132726) do
+ActiveRecord::Schema.define(version: 20210702061734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 20170924132726) do
     t.string "account_number"
     t.decimal "balance", precision: 15, scale: 2, default: "0.0"
     t.string "account_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "amas", force: :cascade do |t|
+    t.string "title", limit: 100
+    t.bigint "speaker_id"
+    t.datetime "start_date"
+    t.integer "state", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

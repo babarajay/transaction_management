@@ -10,5 +10,8 @@ module ApplicationHelper
     'has-error'
   end
 
+  def user_listing
+    User.all.collect{ |u| ["#{u.first_name} #{u.last_name}", u.id] }
+  end
 end
 

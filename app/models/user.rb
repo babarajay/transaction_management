@@ -7,6 +7,7 @@ class User < ApplicationRecord
   ## Associations
   #
   has_one :account
+  has_many :amas, class_name: 'Ama', foreign_key: 'speaker_id'
 
   #
   ## Validations
@@ -54,5 +55,9 @@ class User < ApplicationRecord
     account.account_number = rand(10 ** 10).to_s.rjust(14,'0')
     account.account_type = "Saving"
     account.save
+  end
+
+  def full_name
+    [first_name, last_name].join(' ')
   end
 end
