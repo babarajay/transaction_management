@@ -55,4 +55,13 @@ class Ama < ApplicationRecord
       'completed'
     end
   end
+
+  #
+  ## Refresh state
+  #
+  def refresh_state
+    new_state = next_state
+    validate_current_state_update(new_state)
+    update(state: new_state) unless errors[:state].any?
+  end
 end
