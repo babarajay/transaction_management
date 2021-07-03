@@ -20,9 +20,6 @@
         <td><%= ama.start_date.strftime('%d-%m-%Y - %H:%M') %></td>
         <td><%= ama.speaker.full_name %></td>
         <td><%= ama.state %></td>
-        <% unless ama.completed? %>
-          <td><%= link_to "Do #{ama.next_state.humanize}", state_update_ama_path(ama), method: :post %> |</td>
-        <% end %>
         <% if ama.unstart? %>
           <td><%= link_to 'Edit', edit_ama_path(ama) %> |</td>
         <% end %>

@@ -47,21 +47,6 @@ class AmasController < ApplicationController
     end
   end
 
-  def state_update
-    next_state = @ama.next_state
-    @ama.validate_current_state_update(next_state)
-    if @ama.errors[:state].any?
-      notice = @ama.errors[:state].join(', ')
-    else
-      @ama.update(state: next_state)
-      notice = "Ama was successfully Update."
-    end
-
-    respond_to do |format|
-      format.html { redirect_to amas_url, notice: notice }
-    end
-  end
-
   private
     def set_ama
       @ama = Ama.find_by(id: params[:id])
