@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row main">
+    <div class="col-lg-12">
+      <%= link_to edit_user_registration_path(current_user),class: "btn btn-warning btn-xs" do %><i class="fa fa-pencil fa-fw"></i>Edit<% end%>
+      <h2 class="page-header">My Account Details</h2>
+    </div>
+    <div class="row">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-6">
+      <dl class="dl-horizontal">
+        <table class="table table-bordered">
+          <tr>
+            <td>First Name</td>
+            <td><%= current_user.try(:first_name) %></td>
+          </tr>
+          <tr>
+            <td>Last Name:</td>
+            <td><%= current_user.try(:last_name) %></td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td><%= current_user.try(:email) %></td>
+          </tr>
+          <tr>
+            <td>Phone Number:</td>
+            <td><%= current_user.try(:phone_numbers) %></td>
+          </tr>
+          <tr>
+            <td>Address:</td>
+            <td><%= current_user.try(:address) %></td>
+          </tr>
+          <tr>
+            <td>Account Number:</td>
+            <td><%= current_user.try(:account).try(:account_number) %></td>
+          </tr>
+          <tr>
+            <td>Balance:</td>
+            <td><%= current_user.try(:account).try(:balance) %></td>
+          </tr>
+        </table>
+      </dl>
+    </div>
+  </div>
+</div>

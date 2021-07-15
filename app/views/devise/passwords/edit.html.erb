@@ -1,0 +1,38 @@
+<body class="login-inverse">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put ,class:"form-signin"}) do |f| %>
+          <font color=white><%= devise_error_messages! %></font>
+          <%= f.hidden_field :reset_password_token %>
+
+          <div class="login-panel panel panel-default top30">
+            <div class="panel-heading">
+              <h3 class="panel-title">Change Your Password</h3>
+            </div>
+            <div class="panel-body">
+              <form class="form-signin" action="#" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓">
+                <input type="hidden" name="authenticity_token" value="#">
+                <fieldset>
+                  <div class="form-group">
+                    <%= f.label :password, "New password" %><br />
+                    <% if @minimum_password_length %>
+                      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+                    <% end %>
+
+                    <%= f.password_field :password, autofocus: true, autocomplete: "off", class:"form-control", placeholder: "New Password", required: :required %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label :password_confirmation, "Confirm new password" %><br />
+                    <%= f.password_field :password_confirmation, autocomplete: "off", class:"form-control", placeholder: "Password", required: :required %>
+                  </div>
+                  <%= f.submit "change my password", class:"btn  btn-primary btn-block" %><br>
+                </fieldset>
+              </form> 
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,15 @@
+# Database Secrets
+#
+database_adapter:
+database_encoding:
+database_pool:
+database_name:
+database_username:
+database_password:
+database_host:
+
+#
+# Application Secrets
+#
+secret_key_base:
+devise_secret_key:

@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Amas</h1>
+
+<table class="tabel" style='border-collapse: separate;border-spacing: 1em;'>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Start date</th>
+      <th>Speaker</th>
+      <th>State</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @amas.each do |ama| %>
+      <tr>
+        <td><%= ama.title %></td>
+        <td><%= ama.start_date.strftime('%d-%m-%Y - %H:%M') %></td>
+        <td><%= ama.speaker.full_name %></td>
+        <td><%= ama.state %></td>
+        <% if ama.unstart? %>
+          <td><%= link_to 'Edit', edit_ama_path(ama) %> |</td>
+        <% end %>
+        <td><%= link_to 'Destroy', ama, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ama', new_ama_path, class: 'btn btn-primary' %>
